@@ -71,8 +71,7 @@ body {
   }
 }
 
-.hero-carousel-img{
+.hero-carousel-img {
   max-width: 100%;
-  object-fit: cover;
   mask-image: linear-gradient(to bottom, #000000 50%, transparent 100%);
 }
