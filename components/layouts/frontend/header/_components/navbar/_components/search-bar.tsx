@@ -19,7 +19,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 
-export const SearchBar = ({ categories }: CategoryDropdownModelProps) => {
+export const SearchBar = ({ categories }: CategoryModelProps) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("all");
 
@@ -32,7 +32,7 @@ export const SearchBar = ({ categories }: CategoryDropdownModelProps) => {
             className="min-w-10 justify-between text-xs border-none hover:bg-[#2a2a2a] hover:text-white bg-[#2a2a2a] border-[#464646] text-white"
           >
             {value
-              ? categories.find((category) => category.value === value)?.label
+              ? categories.find((category) => category.code === value)?.name
               : "All"}
             <ChevronDown className="opacity-50" />
           </Button>
@@ -43,21 +43,21 @@ export const SearchBar = ({ categories }: CategoryDropdownModelProps) => {
             <CommandList>
               <CommandEmpty>No category found.</CommandEmpty>
               <CommandGroup>
-                {categories.map((category) => (
+                {categories.map((category,index) => (
                   <CommandItem
                     className="text-xs"
-                    key={category.value}
-                    value={category.value}
+                    key={index}
+                    value={category.code}
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? "" : currentValue);
                       setOpen(false);
                     }}
                   >
-                    {category.label}
+                    {category.name}
                     <Check
                       className={cn(
                         "ml-auto",
-                        value === category.value ? "opacity-100" : "opacity-0"
+                        value === category.code ? "opacity-100" : "opacity-0"
                       )}
                     />
                   </CommandItem>

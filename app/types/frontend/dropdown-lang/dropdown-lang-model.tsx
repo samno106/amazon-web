@@ -1,4 +1,5 @@
 type DropdownLangModel = {
+  icon:any;
   label: string;
   value: string;
 };

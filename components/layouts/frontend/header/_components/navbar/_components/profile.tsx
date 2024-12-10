@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,7 +8,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
+import { BadgeCheck, ChevronDown, CreditCard, ListOrdered, LogOut } from "lucide-react";
+import Link from "next/link";
 
 const Profile = () => {
   return (
@@ -21,13 +23,39 @@ const Profile = () => {
           <span className="text-white text-[12px]">Khit Samno</span>
           <ChevronDown className="size-4" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuContent className="min-w-[200px] w-auto" align="end">
+          <DropdownMenuLabel className="flex items-center space-x-2">
+          <Avatar className="w-6 h-6 rounded-sm">
+            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarFallback>KS</AvatarFallback>
+          </Avatar>
+          <span className="text-gray-600 text-[12px] font-medium">Khit Samno</span>
+          </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Billing</DropdownMenuItem>
-          <DropdownMenuItem>Team</DropdownMenuItem>
-          <DropdownMenuItem>Subscription</DropdownMenuItem>
+          <DropdownMenuItem className="my-1.5">
+            <Link href="/" className="w-full flex items-center space-x-2">
+              <BadgeCheck className="size-4"/>
+              <span className="text-xs">Your account</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem className="my-1.5">
+          <Link href="/" className="w-full flex items-center space-x-2">
+              <ListOrdered className="size-4"/>
+              <span className="text-xs">Your orders</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem className="my-1.5">
+            <Link href="/" className="w-full flex items-center space-x-2">
+              <CreditCard className="size-4"/>
+              <span className="text-xs">Billing</span>
+            </Link></DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <Button variant="ghost" size="sm" className="py-1 px-0 h-4 w-full text-left flex justify-start">
+                <LogOut className="size-4"/>
+                <span className="text-xs font-normal">Log out</span>
+            </Button>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

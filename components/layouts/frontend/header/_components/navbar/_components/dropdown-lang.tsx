@@ -15,7 +15,7 @@ import {
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
-const DropdownLang = ({ langauges }: DropdownLangModelProps) => {
+const DropdownLang = ({ langauges }: LangaugeModelProps) => {
   const [openLang, setOpenLang] = useState(false);
   const [valueLang, setValueLang] = useState("EN");
   return (
@@ -26,8 +26,12 @@ const DropdownLang = ({ langauges }: DropdownLangModelProps) => {
           className="min-w-10 py-4 rounded-sm justify-between text-xs border-none hover:bg-[#2a2a2a] hover:text-white bg-primary text-white"
         >
           {valueLang
+            ? langauges.find((langauge) => langauge.value === valueLang)?.icon
+            : ""}
+
+          {valueLang
             ? langauges.find((langauge) => langauge.value === valueLang)?.value
-            : "All"}
+            : "EN"}
           <ChevronDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -47,6 +51,7 @@ const DropdownLang = ({ langauges }: DropdownLangModelProps) => {
                     setOpenLang(false);
                   }}
                 >
+                  {langauge.icon}
                   {langauge.label}
                   <Check
                     className={cn(

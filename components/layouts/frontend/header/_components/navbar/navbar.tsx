@@ -2,34 +2,35 @@ import { BaseLogo } from "@/components/layouts/logos";
 import SearchBar from "./_components/search-bar";
 import DropdownLang from "./_components/dropdown-lang";
 import Profile from "./_components/profile";
+import { EnIcon, KhIcon } from "@/components/icons/flags";
 
 const categories = [
   {
-    label: "All",
-    value: "all",
+    name: "All",
+    code: "all",
   },
   {
-    label: "Mens",
-    value: "mens",
+    name: "Mens",
+    code: "mens",
   },
   {
-    label: "Womens",
-    value: "womens",
+    name: "Womens",
+    code: "womens",
   },
   {
-    label: "Kids",
-    value: "kids",
+    name: "Kids",
+    code: "kids",
   },
 ];
 
 const langauges = [
   {
-    icon: "",
+    icon: <EnIcon/>,
     label: "English",
     value: "EN",
   },
   {
-    icon: "",
+    icon: <KhIcon/>,
     label: "Khmer",
     value: "KH",
   },
