@@ -5,8 +5,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { ChevronLeft } from "lucide-react"
-import Image from "next/image"
+
 
 const HeroCarousel=()=>{
 
@@ -16,17 +15,14 @@ return(
     <CarouselContent>
       {Array.from({ length: 5 }).map((_, index) => (
         <CarouselItem key={index} className="p-0">
-          <div className="bg-clip-content bg-gradient-to-t from-white to-transparent bg-lime-400 h-[420px]">
-            
-             {/* <Image src={'https://images.unsplash.com/photo-1666782199657-09885cc1c088'} width={100} height={100} alt="banner"/> */}
+          <div className="h-auto">
+            <img src="Image.jfif" width={0} height={0} alt="Slider" className="w-full h-full hero-carousel-img"/>
           </div>
         </CarouselItem>
       ))}
     </CarouselContent>
-    <CarouselPrevious className=" absolute top-[50%] left-0">
-        <ChevronLeft/>
-    </CarouselPrevious>
-    <CarouselNext className=" absolute top-[50%] right-0" />
+    <CarouselPrevious size={'lg'} className=" absolute top-[30%] left-2 h-20 w-10 px-0 rounded bg-white/55 border-none"/>
+    <CarouselNext size={'lg'} className=" absolute top-[30%] right-2 h-20 w-10 px-0 rounded bg-white/55 border-none" />
   </Carousel>
 
   </div>
