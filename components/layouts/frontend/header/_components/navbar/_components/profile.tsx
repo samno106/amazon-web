@@ -20,7 +20,7 @@ const Profile = () => {
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>KS</AvatarFallback>
           </Avatar>
-          <span className="text-white text-[12px]">Khit Samno</span>
+          <span className="text-white text-[12px] hidden md:block">Khit Samno</span>
           <ChevronDown className="size-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="min-w-[200px] w-auto" align="end">

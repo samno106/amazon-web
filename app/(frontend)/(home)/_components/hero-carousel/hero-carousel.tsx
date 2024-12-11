@@ -27,11 +27,11 @@ const HeroCarousel = ({ heroCarousels }: HeroCarouselModelProps) => {
         </CarouselContent>
         <CarouselPrevious
           size={"lg"}
-          className=" absolute top-[25%] left-2 h-20 w-10 px-0 rounded bg-white/55 border-none"
+          className="absolute top-[30%] md:top-[25%] left-2 h-10 w-5 md:h-20 md:w-10 px-0 rounded-sm bg-white/55 border-none"
         />
         <CarouselNext
           size={"lg"}
-          className=" absolute top-[25%] right-2 h-20 w-10 px-0 rounded bg-white/55 border-none"
+          className=" absolute top-[30%] md:top-[25%] right-2 h-10 w-5 md:h-20 md:w-10 px-0 rounded-sm bg-white/55 border-none"
         />
       </Carousel>
     </div>

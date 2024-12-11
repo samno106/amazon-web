@@ -24,7 +24,8 @@ export const SearchBar = ({ categories }: CategoryModelProps) => {
   const [value, setValue] = useState("all");
 
   return (
-    <div className="flex items-center w-[50%] bg-[#2a2a2a] border border-[#464646] rounded-md">
+    <div className="flex items-center md:w-[50%] w-[60%] bg-[#2a2a2a] border border-[#464646] rounded-md ml-3 md:ml-0">
+      <div className="md:flex hidden">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -67,6 +68,7 @@ export const SearchBar = ({ categories }: CategoryModelProps) => {
           </Command>
         </PopoverContent>
       </Popover>
+      </div>
 
       {/* search */}
       {/* search */}

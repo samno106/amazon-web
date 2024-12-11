@@ -90,7 +90,7 @@ const HomePage = () => {
         <HeroCarousel heroCarousels={carousels} />
       </section>
       {/* feature products     */}
-      <section className="px-10 -mt-60">
+      <section className="md:px-10 md:-mt-60 px-3 -mt-10">
         <FeatureProduct products={featureProducts} />
       </section>
     </div>

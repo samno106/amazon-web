@@ -38,10 +38,10 @@ const langauges = [
 
 const Navbar = () => {
   return (
-    <nav className="px-5 flex items-center justify-between bg-primary py-1.5">
+    <nav className="md:px-5 px-2 flex items-center justify-between bg-primary py-1.5">
       {/* logo */}
-      <div className="flex items-center w-[20%] ">
-        <BaseLogo link="/" className=" w-10" />
+      <div className="flex items-center md:w-[20%] ">
+        <BaseLogo link="/" className="w-14 md:w-10" />
         <span className="text-white font-medium">Kmazon</span>
       </div>
       {/* logo */}
@@ -49,8 +49,10 @@ const Navbar = () => {
       <SearchBar categories={categories} />
       {/* search */}
       {/* lang and profile */}
-      <div className="w-[30%] flex items-center justify-end space-x-5 pl-5">
-        <DropdownLang langauges={langauges} />
+      <div className="md:w-[30%] w-[20%] flex items-center justify-end space-x-5 md:pl-5 pl-1">
+        <div className="md:block hidden">
+         <DropdownLang langauges={langauges} />
+        </div>
         <Profile />
       </div>
       {/* lang and profile */}

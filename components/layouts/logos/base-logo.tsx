@@ -8,7 +8,7 @@ export const BaseLogo = ({ link, className }: LogoModel) => {
       <Image
         src="drizzle-orm_dark.svg"
         width={100}
-        height={0}
+        height={100}
         alt="Logo"
         className={cn(className)}
       />
