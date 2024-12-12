@@ -1,10 +1,9 @@
-type CategoryModel={
-    name:string;
-    code:string;
-    status?:boolean;
-    createdAt?:Date;
-}
+type CategoryModel = {
+  name: string;
+  slug: string;
+  createdAt?: Date;
+};
 
-type CategoryModelProps={
-    categories:CategoryModel[]
-}
+type CategoryModelProps = {
+  categories: CategoryModel[];
+};
