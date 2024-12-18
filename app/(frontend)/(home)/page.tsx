@@ -1,5 +1,9 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import FeatureProduct from "./_components/feature-product/feature-product";
 import HeroCarousel from "./_components/hero-carousel/hero-carousel";
+import axios from "axios";
 
 const featureProducts = [
   {
@@ -82,7 +86,22 @@ const carousels = [
     code: "s5",
   },
 ];
+
 const HomePage = () => {
+  const [sliders, setSliders] = useState([]);
+
+  const getSlider = () => {
+    axios
+      .get("http://localhost:1337/api/sliders?populate=*")
+      .then(({ data }) => {
+        setSliders(data.data);
+      })
+      .catch((e) => console.log(e));
+  };
+
+  useEffect(() => {
+    getSlider();
+  }, []);
   return (
     <div className="min-h-screen h-[1200px] bg-slate-100">
       {/* hero carousel */}

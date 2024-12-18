@@ -5,8 +5,6 @@ import SearchBar from "./_components/search-bar";
 import DropdownLang from "./_components/dropdown-lang";
 import Profile from "./_components/profile";
 import { EnIcon, KhIcon } from "@/components/icons/flags";
-import axios from "axios";
-import { useEffect, useState } from "react";
 
 const langauges = [
   {
@@ -21,23 +19,7 @@ const langauges = [
   },
 ];
 
-const Navbar = () => {
-  const [categories, setCategories] = useState([]);
-  const getCategories = () => {
-    axios
-      .get("http://localhost:1337/api/categories?sort[0]=name")
-      .then(({ data }) => {
-        setCategories(data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    getCategories();
-  }, []);
-
+const Navbar = ({ categories }: CategoryModelProps) => {
   return (
     <nav className="md:px-5 px-2 flex items-center justify-between bg-primary py-1.5">
       {/* logo */}

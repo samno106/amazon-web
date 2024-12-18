@@ -44,25 +44,29 @@ export const SearchBar = ({ categories }: CategoryModelProps) => {
               <CommandList>
                 <CommandEmpty>No category found.</CommandEmpty>
                 <CommandGroup>
-                  {categories.map((category, index) => (
-                    <CommandItem
-                      className="text-xs"
-                      key={index}
-                      value={category.slug}
-                      onSelect={(currentValue) => {
-                        setValue(currentValue === value ? "" : currentValue);
-                        setOpen(false);
-                      }}
-                    >
-                      {category.name}
-                      <Check
-                        className={cn(
-                          "ml-auto",
-                          value === category.slug ? "opacity-100" : "opacity-0"
-                        )}
-                      />
-                    </CommandItem>
-                  ))}
+                  {categories
+                    .filter((item) => item.name !== "All")
+                    .map((category, index) => (
+                      <CommandItem
+                        className="text-xs"
+                        key={index}
+                        value={category.slug ?? "#"}
+                        onSelect={(currentValue) => {
+                          setValue(currentValue === value ? "" : currentValue);
+                          setOpen(false);
+                        }}
+                      >
+                        {category.name}
+                        <Check
+                          className={cn(
+                            "ml-auto",
+                            value === category.slug
+                              ? "opacity-100"
+                              : "opacity-0"
+                          )}
+                        />
+                      </CommandItem>
+                    ))}
                 </CommandGroup>
               </CommandList>
             </Command>
