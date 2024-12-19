@@ -30,7 +30,7 @@ export const SearchBar = ({ categories }: CategoryModelProps) => {
           <PopoverTrigger asChild>
             <Button
               variant="outline"
-              className="min-w-10 justify-between text-xs border-none hover:bg-[#2a2a2a] hover:text-white bg-[#2a2a2a] border-[#464646] text-white"
+              className="min-w-10 justify-between text-[11px] border-none hover:bg-[#2a2a2a] hover:text-white bg-[#2a2a2a] border-[#464646] text-white"
             >
               {value
                 ? categories.find((category) => category.slug === value)?.name
@@ -40,7 +40,7 @@ export const SearchBar = ({ categories }: CategoryModelProps) => {
           </PopoverTrigger>
           <PopoverContent className="min-w-[100px] w-auto p-0">
             <Command>
-              <CommandInput className="h-8 text-xs" placeholder="Category..." />
+              <CommandInput className="h-8 text-[10px]" placeholder="Category..." />
               <CommandList>
                 <CommandEmpty>No category found.</CommandEmpty>
                 <CommandGroup>
@@ -48,7 +48,7 @@ export const SearchBar = ({ categories }: CategoryModelProps) => {
                     .filter((item) => item.name !== "All")
                     .map((category, index) => (
                       <CommandItem
-                        className="text-xs"
+                        className="text-[10px] font-medium"
                         key={index}
                         value={category.slug ?? "#"}
                         onSelect={(currentValue) => {

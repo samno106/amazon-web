@@ -30,6 +30,16 @@ model User{
   addresses     Address[] 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+
+  Cart Cart[]
+
+  Order Order[]
+
+  WishList WishList[]
+
+  Review Review[]
+
+  Comment Comment[]
 }
 
 //*** addresses
@@ -53,10 +63,242 @@ model Address{
 model Category{
   id            String     @id @default(uuid())
   name          String
-  slug          String?     @unique
+  slug          String?    @unique
   children      Category[] @relation("children")
   parent        Category?  @relation("children",fields: [parentId], references: [id])   
   parentId      String?    @map("categoryId")
+  Product       Product[]  
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+//*** products
+model Product{
+    id            String     @id @default(uuid())
+    name          String
+    summary       String?
+    description   String?
+    thumbnail     String?
+    status        Boolean    @default(true)
+    category      Category   @relation(fields: [categoryId], references: [id])
+    categoryId    String
+    createdAt     DateTime   @default(now())
+    updatedAt     DateTime   @updatedAt   
+
+    ProductGalleries ProductGallery[] 
+    ProductSkus ProductSku[]
+    CartItem CartItem[]
+    ProductFeature ProductFeature?
+    ProductDiscount ProductDiscount[]
+    OrderItem OrderItem[]
+    WishList WishList[]
+
+    Review Review[]
+}
+
+// *** product galleies
+model ProductGallery{
+    id            String     @id @default(uuid())
+    image         String?
+    imageUrl      String?
+    product       Product    @relation(fields: [productId], references: [id])
+    productId     String
+    createdAt     DateTime   @default(now())
+    updatedAt     DateTime   @updatedAt
+}
+
+// *** product fearture
+model ProductFeature{
+  id                String     @id @default(uuid())
+  product           Product    @relation(fields: [productId], references: [id])
+  productId         String     @unique
+  active            Boolean     @default(true)
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+}
+
+// *** product sku
+model ProductSku{
+   id                String     @id @default(uuid())
+   product           Product    @relation(fields: [productId], references: [id])
+   productId         String
+   attribute         Attribute   @relation(fields: [attributeId], references: [id])          
+   attributeId       String
+   sku               String?
+   price             Float?
+   salePrice         Float?
+   currency          Currency   @relation(fields: [currencyId], references: [id])
+   currencyId        String
+   quantity          BigInt
+   createdAt         DateTime   @default(now())
+   updatedAt         DateTime   @updatedAt
+
+   CartItem CartItem[]
+
+   OrderItem OrderItem[]
+}
+
+
+// *** attributes
+model Attribute{
+  id                String     @id @default(uuid())
+  attributeType     AttributeType @relation(fields: [attributeTypeId], references: [id])
+  attributeTypeId   String
+  value             String?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  ProductSku        ProductSku[]
+}
+
+// *** attributes type
+model AttributeType{
+  id            String     @id @default(uuid())
+  title         String?
+  status        Boolean    @default(true)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  Attributes Attribute[]
+}
+
+// *** currency
+model Currency{
+    id            String     @id @default(uuid())
+    name          String?
+    exchangeRate  Float
+    status        Boolean    @default(true)
+    createdAt     DateTime   @default(now())
+    updatedAt     DateTime   @updatedAt
+
+    ProductSku ProductSku[]
+}
+
+// *** cart
+model Cart{
+  id            String     @id @default(uuid())
+  user          User       @relation(fields: [userId], references: [id])
+  userId        String
+  total         Float
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  CartItem CartItem[]
+}
+
+// *** cart items
+model CartItem{
+  id            String     @id @default(uuid())
+  cart          Cart       @relation(fields: [cartId], references: [id])
+  cartId        String
+  product       Product    @relation(fields: [productId], references: [id])
+  productId     String
+  productSku    ProductSku @relation(fields: [productSkuId], references: [id])
+  productSkuId  String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+// *** discounts
+model Discount{
+  id            String     @id @default(uuid())
+  name          String
+  description   String?
+  type          String?
+  value         String
+  active        Boolean    @default(true)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  ProductDiscount ProductDiscount[]
+}
+
+
+//***product discount
+model ProductDiscount{
+  id            String     @id @default(uuid())
+  product       Product    @relation(fields: [productId], references: [id])
+  productId     String
+  discount      Discount   @relation(fields: [discountId], references: [id])
+  discountId    String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+// *** order
+model Order{
+  id            String     @id @default(uuid())
+  code          String
+  user          User       @relation(fields: [userId], references: [id])
+  userId        String
+  total         Float?
+  status        Boolean    @default(true)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  OrderItem OrderItem[]
+
+  Payment Payment?
+}
+
+//*** order items
+model OrderItem{
+  id            String     @id @default(uuid())
+  order         Order      @relation(fields: [orderId], references: [id])
+  orderId       String
+  product       Product    @relation(fields: [productId], references: [id])
+  productId     String
+  productSku    ProductSku  @relation(fields: [productSkuId], references: [id])
+  productSkuId  String
+  quantity      BigInt
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+//*** payments
+model Payment{
+  id            String     @id @default(uuid())
+  order         Order      @relation(fields: [orderId], references: [id])
+  orderId       String     @unique
+  amount        Float
+  provider      String?
+  status        Boolean    @default(true )
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+//*** wishlists
+model WishList{
+  id            String     @id @default(uuid())
+  user          User       @relation(fields: [userId], references: [id])
+  userId        String
+  product       Product     @relation(fields: [productId], references: [id])
+  productId     String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+//*** reviews
+model Review{
+  id            String     @id @default(uuid())
+  product       Product    @relation(fields: [productId], references: [id])
+  productId     String
+  user          User       @relation(fields: [userId], references: [id])
+  userId        String
+  rating        Int
+  review        String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  Comment Comment[]
+}
+
+//*** comments
+model Comment{
+  id            String     @id @default(uuid())
+  review        Review     @relation(fields: [reviewId], references: [id])
+  reviewId      String
+  user          User       @relation(fields: [userId], references: [id])
+  userId        String
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 }

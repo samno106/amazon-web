@@ -8,8 +8,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BadgeCheck, ChevronDown, CreditCard, ListOrdered, LogOut } from "lucide-react";
+import { BadgeCheck, ChevronDown, CreditCard, Heart, ListOrdered, LogOut, ShoppingBag } from "lucide-react";
 import Link from "next/link";
+
 
 const Profile = () => {
   return (
@@ -36,6 +37,18 @@ const Profile = () => {
             <Link href="/" className="w-full flex items-center space-x-2">
               <BadgeCheck className="size-4"/>
               <span className="text-xs">Your account</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem className="my-1.5">
+          <Link href="/" className="w-full flex items-center space-x-2">
+              <Heart className="size-4"/>
+              <span className="text-xs">Your wishlists</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem className="my-1.5">
+          <Link href="/" className="w-full flex items-center space-x-2">
+              <ShoppingBag className="size-4"/>
+              <span className="text-xs">Your carts</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem className="my-1.5">
