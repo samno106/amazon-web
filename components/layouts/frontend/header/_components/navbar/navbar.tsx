@@ -1,12 +1,12 @@
-"use client";
-
 import { BaseLogo } from "@/components/layouts/logos";
 import SearchBar from "./_components/search-bar";
 import DropdownLang from "./_components/dropdown-lang";
 import Profile from "./_components/profile";
 import { EnIcon, KhIcon } from "@/components/icons/flags";
 import { Button } from "@/components/ui/button";
-import { Heart, ShoppingBag } from "lucide-react";
+import { Heart, ShoppingBag, ShoppingBasket } from "lucide-react";
+import Link from "next/link";
+import { auth } from "@/auth";
 
 const langauges = [
   {
@@ -21,7 +21,9 @@ const langauges = [
   },
 ];
 
-const Navbar = ({ categories }: CategoryModelProps) => {
+const Navbar = async ({ categories }: CategoryModelProps) => {
+  const session = await auth();
+
   return (
     <nav className="md:px-5 px-2 flex items-center justify-between bg-primary py-1.5">
       {/* logo */}
@@ -39,25 +41,30 @@ const Navbar = ({ categories }: CategoryModelProps) => {
           <DropdownLang langauges={langauges} />
         </div>
         <div className="relative">
-            <div className="p-1 bg-rose-500 absolute rounded-full left-1.5 top-2.5 border border-primary"></div>
-            <Button
-              size={"icon"}
-              className="hover:bg-[#2a2a2a] hover:text-white bg-primary text-white">
-              <Heart />
-            </Button>
+          <div className="p-1 bg-rose-500 absolute rounded-full left-1 top-1.5 border border-primary"></div>
+          <Button
+            size={"icon"}
+            className="hover:bg-[#2a2a2a] hover:text-white bg-primary text-white"
+          >
+            <Heart />
+          </Button>
+        </div>
+        <div className="relative">
+          <div className="p-1 min-w-3.5 w-auto h-3.5 bg-rose-500 absolute rounded-full left-[10%] top-1 text-[7px] text-white text-center items-center flex justify-center border border-primary">
+            <span>5</span>
           </div>
-          <div className="relative">
-            <div className="min-w-3.5 w-auto h-3.5 bg-rose-500 absolute rounded-full left-1 top-1 text-[8px] text-white text-center items-center flex justify-center border border-primary">
-             <span>25+</span>
-            </div>
-            <Button
-              size={"icon"}
-              className="hover:bg-[#2a2a2a] hover:text-white bg-primary text-white">
-              <ShoppingBag/>
-            </Button>
-          </div>
-       
-        <Profile />
+
+          <Button className="hover:bg-[#2a2a2a] hover:text-white bg-primary text-white">
+            <ShoppingBag className="size-6" />
+          </Button>
+        </div>
+        {!session?.user ? (
+          <Button asChild>
+            <Link href="sign-in">Sign in</Link>
+          </Button>
+        ) : (
+          <Profile user={session?.user} />
+        )}
       </div>
       {/* lang and profile */}
     </nav>

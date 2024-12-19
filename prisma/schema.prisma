@@ -16,30 +16,91 @@ datasource db {
 
 //#schemas
 
+enum UserRole{
+  ADMIN
+  USER
+}
 //*** users
 model User{
   id            String @id() @default(uuid())
   firstName     String?
   lastName      String?
-  avatar        String?
-  username      String  @unique
   email         String  @unique
-  password      String
+  emailVerified DateTime?
+  image         String?
   phoneNumber   String?
   telegram      String?
   addresses     Address[] 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  Cart Cart[]
+  cart          Cart[]
+  order         Order[]
+  wishList      WishList[]
+  review        Review[]
+  comment       Comment[]
+  accounts      Account[]
+  sessions      Session[]
+  role          UserRole?   @default(USER)
+  // Optional for WebAuthn support
+  Authenticator Authenticator[]
+}
 
-  Order Order[]
 
-  WishList WishList[]
-
-  Review Review[]
-
-  Comment Comment[]
+// *** next auth required tables
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([provider, providerAccountId])
+}
+ 
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+ 
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+ 
+  @@id([identifier, token])
+}
+ 
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([userId, credentialID])
 }
 
 //*** addresses
@@ -67,7 +128,7 @@ model Category{
   children      Category[] @relation("children")
   parent        Category?  @relation("children",fields: [parentId], references: [id])   
   parentId      String?    @map("categoryId")
-  Product       Product[]  
+  product       Product[]  
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 }
@@ -85,15 +146,14 @@ model Product{
     createdAt     DateTime   @default(now())
     updatedAt     DateTime   @updatedAt   
 
-    ProductGalleries ProductGallery[] 
-    ProductSkus ProductSku[]
-    CartItem CartItem[]
-    ProductFeature ProductFeature?
-    ProductDiscount ProductDiscount[]
-    OrderItem OrderItem[]
-    WishList WishList[]
-
-    Review Review[]
+    productGalleries  ProductGallery[] 
+    productSkus       ProductSku[]
+    cartItem          CartItem[]
+    productFeature    ProductFeature?
+    productDiscount   ProductDiscount[]
+    orderItem         OrderItem[]
+    wishList          WishList[]
+    review            Review[]
 }
 
 // *** product galleies
@@ -133,9 +193,9 @@ model ProductSku{
    createdAt         DateTime   @default(now())
    updatedAt         DateTime   @updatedAt
 
-   CartItem CartItem[]
+   cartItem CartItem[]
 
-   OrderItem OrderItem[]
+   orderItem OrderItem[]
 }
 
 
@@ -147,7 +207,7 @@ model Attribute{
   value             String?
   createdAt         DateTime   @default(now())
   updatedAt         DateTime   @updatedAt
-  ProductSku        ProductSku[]
+  productSku        ProductSku[]
 }
 
 // *** attributes type
@@ -158,7 +218,7 @@ model AttributeType{
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
-  Attributes Attribute[]
+  attributes Attribute[]
 }
 
 // *** currency
@@ -170,7 +230,7 @@ model Currency{
     createdAt     DateTime   @default(now())
     updatedAt     DateTime   @updatedAt
 
-    ProductSku ProductSku[]
+    productSku ProductSku[]
 }
 
 // *** cart
@@ -182,7 +242,7 @@ model Cart{
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
-  CartItem CartItem[]
+  cartItem CartItem[]
 }
 
 // *** cart items
@@ -209,7 +269,7 @@ model Discount{
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
-  ProductDiscount ProductDiscount[]
+  productDiscount ProductDiscount[]
 }
 
 
@@ -235,9 +295,9 @@ model Order{
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
-  OrderItem OrderItem[]
+  orderItem OrderItem[]
 
-  Payment Payment?
+  payment Payment?
 }
 
 //*** order items
@@ -289,7 +349,7 @@ model Review{
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
-  Comment Comment[]
+  comment Comment[]
 }
 
 //*** comments
