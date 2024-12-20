@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import { auth } from "@/auth";
-import { SessionProvider } from "next-auth/react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -11,7 +11,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Amazon Web",
+  title: "Kmazon Web",
   description: "Online Salling Products",
 };
 
@@ -20,12 +20,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   const session = await auth();
   return (
     <SessionProvider session={session}>
       <html lang="en">
-        <body className={poppins.className}>{children}</body>
+        <body className={poppins.className}>
+          {children}
+   
+        </body>
       </html>
-    </SessionProvider>
+     </SessionProvider>
   );
 }

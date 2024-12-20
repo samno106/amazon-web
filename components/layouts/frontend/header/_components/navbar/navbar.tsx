@@ -1,3 +1,5 @@
+"use client";
+
 import { BaseLogo } from "@/components/layouts/logos";
 import SearchBar from "./_components/search-bar";
 import DropdownLang from "./_components/dropdown-lang";
@@ -6,7 +8,7 @@ import { EnIcon, KhIcon } from "@/components/icons/flags";
 import { Button } from "@/components/ui/button";
 import { Heart, ShoppingBag, ShoppingBasket } from "lucide-react";
 import Link from "next/link";
-import { auth } from "@/auth";
+import { useSession } from "next-auth/react";
 
 const langauges = [
   {
@@ -21,8 +23,9 @@ const langauges = [
   },
 ];
 
-const Navbar = async ({ categories }: CategoryModelProps) => {
-  const session = await auth();
+const Navbar =  ({ categories }: CategoryModelProps) => {
+
+  const { data: session } =  useSession()
 
   return (
     <nav className="md:px-5 px-2 flex items-center justify-between bg-primary py-1.5">
@@ -58,13 +61,10 @@ const Navbar = async ({ categories }: CategoryModelProps) => {
             <ShoppingBag className="size-6" />
           </Button>
         </div>
-        {!session?.user ? (
-          <Button asChild>
+          {!session ? (<Button asChild>
             <Link href="sign-in">Sign in</Link>
-          </Button>
-        ) : (
-          <Profile user={session?.user} />
-        )}
+          </Button>): (<Profile user={session?.user} />) }
+
       </div>
       {/* lang and profile */}
     </nav>
