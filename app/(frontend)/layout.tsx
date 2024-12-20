@@ -1,4 +1,5 @@
 import { Header } from "@/components/layouts/frontend";
+import { FrontendModalProvider } from "@/providers/frontend-modal-provider";
 
 export default function FrontendLayout({
   children,
@@ -6,9 +7,10 @@ export default function FrontendLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <div>
+      <FrontendModalProvider />
       <Header />
       <main>{children}</main>
-    </>
+    </div>
   );
 }

@@ -6,9 +6,10 @@ import DropdownLang from "./_components/dropdown-lang";
 import Profile from "./_components/profile";
 import { EnIcon, KhIcon } from "@/components/icons/flags";
 import { Button } from "@/components/ui/button";
-import { Heart, ShoppingBag, ShoppingBasket } from "lucide-react";
+import { Heart, ShoppingBag, ShoppingBasket, UserRound } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { useSigninModal } from "@/hooks/frontend/modals/auth/use-signin-modal";
 
 const langauges = [
   {
@@ -23,9 +24,9 @@ const langauges = [
   },
 ];
 
-const Navbar =  ({ categories }: CategoryModelProps) => {
-
-  const { data: session } =  useSession()
+const Navbar = ({ categories }: CategoryModelProps) => {
+  const { data: session } = useSession();
+  const signinModal = useSigninModal();
 
   return (
     <nav className="md:px-5 px-2 flex items-center justify-between bg-primary py-1.5">
@@ -61,10 +62,17 @@ const Navbar =  ({ categories }: CategoryModelProps) => {
             <ShoppingBag className="size-6" />
           </Button>
         </div>
-          {!session ? (<Button asChild>
-            <Link href="sign-in">Sign in</Link>
-          </Button>): (<Profile user={session?.user} />) }
-
+        {!session ? (
+          <Button
+            onClick={signinModal.onOpen}
+            className=" font-normal hover:bg-[#2a2a2a] text-xs"
+          >
+            <UserRound className="size-5" />
+            <span>Sign in</span>
+          </Button>
+        ) : (
+          <Profile user={session?.user} />
+        )}
       </div>
       {/* lang and profile */}
     </nav>

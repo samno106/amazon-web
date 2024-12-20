@@ -23,7 +23,7 @@ const DropdownLang = ({ langauges }: LangaugeModelProps) => {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="min-w-10 py-4 px-2 rounded-sm justify-between text-[10px] border-none hover:bg-[#2a2a2a] hover:text-white bg-primary text-white"
+          className="min-w-10 py-4 px-2 rounded-sm justify-between text-[11px] border-none hover:bg-[#2a2a2a] hover:text-white bg-primary text-white"
         >
           {valueLang
             ? langauges.find((langauge) => langauge.value === valueLang)?.icon
@@ -41,7 +41,7 @@ const DropdownLang = ({ langauges }: LangaugeModelProps) => {
             <CommandGroup>
               {langauges.map((langauge) => (
                 <CommandItem
-                  className="text-[10px]"
+                  className="text-[11px]"
                   key={langauge.value}
                   value={langauge.value}
                   onSelect={(currentValue) => {

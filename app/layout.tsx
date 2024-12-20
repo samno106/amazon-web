@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import { auth } from "@/auth";
+import { Toaster } from "@/components/ui/toaster";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -20,16 +21,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   const session = await auth();
   return (
     <SessionProvider session={session}>
       <html lang="en">
         <body className={poppins.className}>
           {children}
-   
+          <Toaster />
         </body>
       </html>
-     </SessionProvider>
+    </SessionProvider>
   );
 }
