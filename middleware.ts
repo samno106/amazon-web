@@ -1,8 +1,19 @@
 import NextAuth from "next-auth";
-import { authConfig } from "@/auth.config";
+import { NextRequest, NextResponse } from "next/server";
+import authConfig from "@/lib/auth.config";
 
-export default NextAuth(authConfig).auth;
+const { auth } = NextAuth(authConfig);
 
-export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
-};
+export default auth(async function middleware(request: NextRequest) {
+  const session = await auth();
+
+  if (
+    request.nextUrl.pathname.startsWith("/dashboard") &&
+    session?.user?.role !== "ADMIN"
+  ) {
+    return NextResponse.rewrite(new URL("/403", request.url));
+  }
+
+  // console.log(session);
+});
+export const config = { matcher: ["/dashboard"] };
