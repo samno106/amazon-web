@@ -26,6 +26,7 @@ export async function POST(req: Request) {
         name: firstName + " " + lastName,
         email,
         password: hashPassword,
+        role: "USER",
       },
     });
 
@@ -34,14 +35,14 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         user: res,
-        message: "User register success",
+        message: "Please check your email",
       },
-      { status: 201 }
+      { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
       {
-        message: "Somthing went wrong!",
+        message: "Internal server error!",
       },
       { status: 500 }
     );

@@ -11,9 +11,9 @@ export default auth(async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/dashboard") &&
     session?.user?.role !== "ADMIN"
   ) {
-    return NextResponse.rewrite(new URL("/403", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
-  // console.log(session);
+  console.log(session);
 });
 export const config = { matcher: ["/dashboard"] };

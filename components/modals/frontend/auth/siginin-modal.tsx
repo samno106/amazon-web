@@ -1,7 +1,6 @@
 import { Facebook, Github, Google } from "@/components/icons/socails";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Modal } from "@/components/ui/modal";
 import { useSigninModal } from "@/hooks/frontend/modals/auth/use-signin-modal";
 import { useSignupModal } from "@/hooks/frontend/modals/auth/use-signup-modal";
@@ -68,8 +67,6 @@ export const SigninModal = () => {
       router.refresh();
       signinModal.onClose();
       form.reset();
-
-      //   router.push("/");
     }
   };
 
@@ -166,6 +163,7 @@ export const SigninModal = () => {
           </Button>
           <Button
             variant="ghost"
+            onClick={() => signIn("google")}
             className="py-2 w-[120px] rounded-md border border-[#DEEAFF] flex items-center space-x-1 hover:bg-gray-50"
           >
             <Google />

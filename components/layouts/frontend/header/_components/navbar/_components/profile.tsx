@@ -15,6 +15,7 @@ import {
   ChevronDown,
   CreditCard,
   Heart,
+  LayoutGrid,
   ListOrdered,
   LogOut,
   ShoppingBag,
@@ -51,6 +52,18 @@ const Profile = ({ user }: any) => {
             </span>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
+          {user.role === "ADMIN" && (
+            <DropdownMenuItem className="my-1.5 ">
+              <Link
+                href="/dashboard"
+                className="w-full flex items-center space-x-2"
+              >
+                <LayoutGrid className="size-4" />
+                <span className="text-xs">Admin Dashboard</span>
+              </Link>
+            </DropdownMenuItem>
+          )}
+
           <DropdownMenuItem className="my-1.5">
             <Link href="/" className="w-full flex items-center space-x-2">
               <BadgeCheck className="size-4" />
