@@ -87,4 +87,27 @@ body {
 .hero-carousel-img {
   max-width: 100%;
   mask-image: linear-gradient(to bottom, #000000 50%, transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom, #000000 50%, transparent 100%);
 }
+
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #dedede #fafafa;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #fafafa;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #dedede;
+    border-radius: 5px;
+    border: 1px solid #fafafa;
+  }

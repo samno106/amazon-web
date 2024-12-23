@@ -14,6 +14,5 @@ export default auth(async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  console.log(session);
 });
-export const config = { matcher: ["/dashboard"] };
+export const config = { matcher: ["/dashboard", "/dashboard/:path*"] };
