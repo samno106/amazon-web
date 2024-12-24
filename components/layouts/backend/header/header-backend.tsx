@@ -26,7 +26,7 @@ export const HeaderBackend = () => {
           {parthname.split("/").length > 2 && (
             <>
             <BreadcrumbItem className="hidden md:block">
-            <BreadcrumbLink href={parthname} className=" capitalize text-xs">
+            <BreadcrumbLink href={"/"+parthname.split("/")[1]} className=" capitalize text-xs">
             {parthname.split("/")[1]}
             </BreadcrumbLink>
             </BreadcrumbItem>

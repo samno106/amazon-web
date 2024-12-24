@@ -8,15 +8,17 @@ export default function BackendLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <div>
     <BackendModalProvider/>
-    <SidebarProvider>
-      <SidebarBackend />
-      <SidebarInset>
-        <HeaderBackend />
-        <main className="py-3 px-5">{children}</main>
-      </SidebarInset>
-    </SidebarProvider>
-    </>
+      <SidebarProvider>
+        <SidebarBackend />
+        <SidebarInset>
+          <HeaderBackend />
+          <main className="py-3 px-5">{children}</main>
+        </SidebarInset>
+      </SidebarProvider>
+    </div>
+    
+ 
   );
 }

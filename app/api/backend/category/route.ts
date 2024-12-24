@@ -6,12 +6,13 @@ export async function POST(req:Request) {
     try {
         
         const body = await req.json();
-        const {name, slug} = body;
-    
+        const {name, slug, parentId} = body;
+        console.log("My parent => ",parentId)
         const category = await prisma.category.create({
             data:{
                 name,
-                slug
+                slug,
+                parentId:parentId?parentId:null
             }
         })
 
@@ -39,7 +40,11 @@ export async function POST(req:Request) {
 export async function GET(req:Request) {
     try {
         
-        const categories = await prisma.category.findMany();
+        const categories = await prisma.category.findMany({
+          include:{
+            parent:true
+          }
+        });
 
         return NextResponse.json(
             {

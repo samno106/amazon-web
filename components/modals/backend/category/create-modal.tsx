@@ -1,15 +1,12 @@
-import { Facebook, Github, Google } from "@/components/icons/socails";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Modal } from "@/components/ui/modal";
-import { useSigninModal } from "@/hooks/frontend/modals/auth/use-signin-modal";
-import { useSignupModal } from "@/hooks/frontend/modals/auth/use-signup-modal";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { signIn } from "next-auth/react";
 import {
   Form,
   FormControl,
@@ -23,6 +20,7 @@ import { useEffect, useState } from "react";
 import { useCategoryCreateModal } from "@/hooks/backend/modals/category/use-category-create-modal";
 import axios from "axios";
 import { Category } from "@prisma/client";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -32,6 +30,7 @@ const formSchema = z.object({
 
 export const CreateCategoryModal = () => {
 
+  const router = useRouter();
 
   const { toast } = useToast();
   const categoryCreateModal = useCategoryCreateModal();
@@ -46,7 +45,6 @@ export const CreateCategoryModal = () => {
 
         if(response.status === 200){
           setCategories(response.data.categories);
-          console.log(response.data.categories)
         }
       } catch (error) {
         console.log(error)
@@ -72,7 +70,10 @@ export const CreateCategoryModal = () => {
           title: "Success",
           description: "Category has created.",
         });
+        getCategory();
         form.reset();
+        router.refresh();
+       categoryCreateModal.onClose();
       }
     } catch (error: any) {
       toast({
@@ -81,6 +82,7 @@ export const CreateCategoryModal = () => {
       });
     } finally {
       setLoading(false);
+      router.refresh();
     }
   };
 
@@ -182,17 +184,23 @@ export const CreateCategoryModal = () => {
                   <FormLabel className="text-[11px] text-[#787879]">
                     Parent
                   </FormLabel>
-                  <FormControl>
-                    
-                    <select {...field} className="p-2 border rounded">
-                        {
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="text-xs">
+                          <SelectValue placeholder="Select parent" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="text-xs">
+                      <SelectItem className="text-xs" value="null">Select parent</SelectItem>
+                      {
                           categories && categories.map((category,index)=>(
-                            <option value={category.id} key={index}>{category.name}</option>
+                            <SelectItem className="text-xs" value={category.id} key={index}>{category.name}</SelectItem>
                           ))
                         }
-                     
-                    </select>
-                  </FormControl>
+                        
+                      </SelectContent>
+                    </Select>
+                  
                   <FormMessage />
                 </FormItem>
               )}
