@@ -15,7 +15,7 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   size?: string;
-  isDashboard?:boolean;
+  isDashboard?: boolean;
   children?: React.ReactNode;
 }
 
@@ -38,7 +38,11 @@ export const Modal: React.FC<ModalProps> = ({
     <Dialog open={isOpen} onOpenChange={onChange}>
       <DialogContent className={size}>
         <DialogHeader>
-          <DialogTitle className={cn("font-medium", isDashboard?"text-xs":"text-md")}>{title}</DialogTitle>
+          <DialogTitle
+            className={cn("font-medium", isDashboard ? "text-xs" : "text-md")}
+          >
+            {title}
+          </DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <div>{children}</div>

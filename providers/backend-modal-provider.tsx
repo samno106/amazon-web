@@ -1,6 +1,7 @@
 "use client";
 
 import CreateCategoryModal from "@/components/modals/backend/category/create-modal";
+import { ConfirmModal } from "@/components/modals/backend/confirm/confirm-modal";
 import { useEffect, useState } from "react";
 
 export const BackendModalProvider = () => {
@@ -16,7 +17,8 @@ export const BackendModalProvider = () => {
 
   return (
     <>
-      <CreateCategoryModal/>
+      <CreateCategoryModal />
+      <ConfirmModal />
     </>
   );
 };

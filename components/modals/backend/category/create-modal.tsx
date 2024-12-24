@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Modal } from "@/components/ui/modal";
@@ -20,16 +19,21 @@ import { useEffect, useState } from "react";
 import { useCategoryCreateModal } from "@/hooks/backend/modals/category/use-category-create-modal";
 import axios from "axios";
 import { Category } from "@prisma/client";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   slug: z.string().min(1, "Name is required"),
-  parentId:z.string()
+  parentId: z.string(),
 });
 
 export const CreateCategoryModal = () => {
-
   const router = useRouter();
 
   const { toast } = useToast();
@@ -37,27 +41,26 @@ export const CreateCategoryModal = () => {
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
-  const [categories, setCategories]  = useState<Category[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
-  const getCategory = async ()=>{
-      try {
-        const response = await axios.get("/api/backend/category");
+  const getCategory = async () => {
+    try {
+      const response = await axios.get("/api/backend/category");
 
-        if(response.status === 200){
-          setCategories(response.data.categories);
-        }
-      } catch (error) {
-        console.log(error)
+      if (response.status === 200) {
+        setCategories(response.data.categories);
       }
-     
-  }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       slug: "",
-      parentId:""
+      parentId: "",
     },
   });
 
@@ -67,18 +70,20 @@ export const CreateCategoryModal = () => {
       const response = await axios.post("/api/backend/category", values);
       if (response.status === 200) {
         toast({
-          title: "Success",
-          description: "Category has created.",
+          title: "Successful",
+          description: "The category has created.",
+          duration: 2000,
         });
         getCategory();
         form.reset();
         router.refresh();
-       categoryCreateModal.onClose();
+        categoryCreateModal.onClose();
       }
     } catch (error: any) {
       toast({
         title: "Opp! Something went wrong.",
         description: `${error.response.data.message}`,
+        duration: 2000,
       });
     } finally {
       setLoading(false);
@@ -117,9 +122,9 @@ export const CreateCategoryModal = () => {
     form.reset();
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getCategory();
-  },[]);
+  }, []);
 
   return (
     <Modal
@@ -168,7 +173,7 @@ export const CreateCategoryModal = () => {
                       disabled
                       {...field}
                       id="slug"
-                      className="placeholder:text-[13px] border-[#ECECED] bg-[#FBFBFC] focus-visible:ring-[#ECECED] shadow-none h-[35px] placeholder:text-gray-400"
+                      className="placeholder:text-[13px] di disabled:border-gray-300 border-[#ECECED] bg-[#FBFBFC] focus-visible:ring-[#ECECED] shadow-none h-[35px] placeholder:text-gray-400"
                     />
                   </FormControl>
                   <FormMessage />
@@ -184,23 +189,32 @@ export const CreateCategoryModal = () => {
                   <FormLabel className="text-[11px] text-[#787879]">
                     Parent
                   </FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger className="text-xs">
-                          <SelectValue placeholder="Select parent" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className="text-xs">
-                      <SelectItem className="text-xs" value="null">Select parent</SelectItem>
-                      {
-                          categories && categories.map((category,index)=>(
-                            <SelectItem className="text-xs" value={category.id} key={index}>{category.name}</SelectItem>
-                          ))
-                        }
-                        
-                      </SelectContent>
-                    </Select>
-                  
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="text-xs">
+                        <SelectValue placeholder="Select parent" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="text-xs">
+                      <SelectItem className="text-xs" value="null">
+                        Select parent
+                      </SelectItem>
+                      {categories &&
+                        categories.map((category, index) => (
+                          <SelectItem
+                            className="text-xs"
+                            value={category.id}
+                            key={index}
+                          >
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+
                   <FormMessage />
                 </FormItem>
               )}
@@ -218,7 +232,7 @@ export const CreateCategoryModal = () => {
               <Button
                 type="submit"
                 size={"sm"}
-                className="text-[10px]"
+                className="text-[10px] px-5"
                 disabled={loading || disabled}
               >
                 {loading && <LoaderCircle className=" animate-spin size-3" />}
